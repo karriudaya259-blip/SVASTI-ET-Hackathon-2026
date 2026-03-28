@@ -10,3 +10,16 @@
 SVASTI predicts congestion BEFORE it happens, sends nudges, optimizes lanes.
 
 **Live Results:**
+
+## 📱 Live Results
+![Impact](impact.png)
+![Forecast](forecast.png)
+![Dashboard](dashboard.png)
+
+## 📊 Impact
+| Metric | Baseline | SVASTI | Gain |
+|--------|----------|--------|------|
+| Delay | 35 min | 19 min | **-46%** |
+| Savings | - | ₹2,000cr | Top 10 cities |
+
+**Predict. Nudge. Flow.**
