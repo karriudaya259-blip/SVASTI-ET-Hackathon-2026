@@ -12,10 +12,11 @@
             box-sizing: border-box;
         }
 
-        body {
-            background: #0a0f1a;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
+       body {
+    background: #0a0f1a;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #e2e8f0; /* Soft white/light gray for better readability */
+}
 
         /* Single SVASTI Logo in Background - MORE VISIBLE */
         .bg-logo {
@@ -66,9 +67,16 @@
         }
 
         .tagline {
-            color: #94a3b8;
-            font-size: 16px;
-        }
+    color: #cbd5e1; /* Changed from #94a3b8 to a lighter slate */
+    font-size: 16px;
+}
+
+.hint {
+    color: #cbd5e1; /* Changed from #94a3b8 to a lighter slate */
+    font-size: 12px;
+    margin-top: 8px;
+    text-align: center;
+}
 
         /* Cards */
         .card {
@@ -95,13 +103,18 @@
         }
 
         input, select {
-            background: #1e293b;
-            border: 1px solid #334155;
-            padding: 10px;
-            border-radius: 10px;
-            color: white;
-            width: 100%;
-        }
+    background: #1e293b;
+    border: 1px solid #475569; /* Lighter border for definition */
+    padding: 10px;
+    border-radius: 10px;
+    color: #ffffff; /* Pure white text for typing */
+    width: 100%;
+}
+
+/* This helps the placeholder text stand out slightly more */
+input::placeholder {
+    color: #94a3b8;
+}
 
         button {
             background: #38bdf8;
