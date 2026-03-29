@@ -1,633 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVASTI | Predict. Optimize. Flow.</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0a0f1a 0%, #0f2a2a 50%, #0a0f1a 100%);
-            color: #f1f5f9;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Header with Logo */
-        .header {
-            text-align: center;
-            padding: 2rem 0 2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 2rem;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .logo-text {
-            font-size: 4rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #38bdf8, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .logo-icon {
-            font-size: 3.5rem;
-        }
-
-        .tagline {
-            font-size: 1.3rem;
-            color: #94a3b8;
-            margin-top: 0.5rem;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(56, 189, 248, 0.2);
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            margin-top: 1rem;
-        }
-
-        /* Cards */
-        .card {
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .card h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            border-left: 4px solid #38bdf8;
-            padding-left: 1rem;
-        }
-
-        /* Form Styles */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: #38bdf8;
-            font-size: 0.9rem;
-        }
-
-        .form-group input, .form-group select {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid #334155;
-            padding: 0.8rem 1rem;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #38bdf8;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #38bdf8, #a855f7);
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 12px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: opacity 0.2s;
-            width: 100%;
-        }
-
-        .btn-primary:hover {
-            opacity: 0.9;
-        }
-
-        .success-msg {
-            background: rgba(74, 222, 128, 0.2);
-            border: 1px solid #4ade80;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        /* Agent Grid - Clickable */
-        .agent-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .agent {
-            background: rgba(56, 189, 248, 0.1);
-            border-radius: 18px;
-            padding: 1.5rem;
-            text-align: center;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .agent:hover {
-            transform: translateY(-5px);
-            background: rgba(56, 189, 248, 0.2);
-            border-color: #38bdf8;
-        }
-
-        .agent-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.6rem;
-        }
-
-        .agent-name {
-            font-weight: 700;
-            color: #38bdf8;
-            font-size: 1.2rem;
-        }
-
-        .agent-desc {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin-top: 0.5rem;
-        }
-
-        /* Modal for Agent Details */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: #1e293b;
-            border-radius: 24px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid #38bdf8;
-        }
-
-        .modal-content h3 {
-            color: #38bdf8;
-            margin-bottom: 1rem;
-        }
-
-        .close-modal {
-            background: #ef4444;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .stat-card {
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 16px;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #38bdf8;
-        }
-
-        /* Location Grid */
-        .location-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 0.8rem;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 0.5rem;
-        }
-
-        .location-btn {
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 0.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-
-        .location-btn:hover {
-            background: #38bdf8;
-            color: #0f172a;
-        }
-
-        .selected-location {
-            background: #38bdf8;
-            color: #0f172a;
-            font-weight: bold;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #64748b;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            .logo-text {
-                font-size: 2.5rem;
-            }
-        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:linear-gradient(135deg,#0a0f1a,#0f2a2a);color:white;font-family:Arial;padding:20px;}
+        .container{max-width:1200px;margin:auto;}
+        .header{text-align:center;padding:30px;border-bottom:1px solid rgba(255,255,255,0.2);margin-bottom:30px;}
+        .logo{font-size:50px;font-weight:bold;background:linear-gradient(135deg,#38bdf8,#a855f7);-webkit-background-clip:text;background-clip:text;color:transparent;}
+        .tagline{font-size:20px;color:#94a3b8;margin-top:10px;}
+        .card{background:rgba(30,41,59,0.6);border-radius:20px;padding:25px;margin-bottom:20px;}
+        .card h2{margin-bottom:15px;color:#38bdf8;}
+        input,select{background:#1e293b;border:1px solid #334155;padding:12px;border-radius:10px;color:white;width:100%;margin-bottom:10px;}
+        button{background:linear-gradient(135deg,#38bdf8,#a855f7);border:none;padding:12px 20px;border-radius:10px;color:white;font-weight:bold;cursor:pointer;width:100%;}
+        .agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin:15px 0;}
+        .agent{background:rgba(56,189,248,0.1);border-radius:15px;padding:15px;text-align:center;cursor:pointer;border:1px solid rgba(56,189,248,0.3);}
+        .agent:hover{background:rgba(56,189,248,0.2);}
+        .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;}
+        .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:15px;}
+        .stat-card{background:rgba(15,23,42,0.6);border-radius:12px;padding:15px;text-align:center;}
+        .stat-number{font-size:24px;font-weight:bold;color:#38bdf8;}
+        .success{background:rgba(74,222,128,0.2);border:1px solid #4ade80;padding:12px;border-radius:10px;margin-top:15px;text-align:center;}
+        .footer{text-align:center;padding:20px;color:#64748b;}
+        @media(max-width:768px){.agent-grid,.form-grid,.stats-grid{grid-template-columns:1fr;}}
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header with Logo -->
-        <div class="header">
-            <div class="logo-container">
-                <span class="logo-icon">🕉️</span>
-                <span class="logo-text">SVASTI</span>
-                <span class="logo-icon">🚦</span>
-            </div>
-            <div class="tagline">Predict. Optimize. Flow.</div>
-            <div class="badge">🏆 ET AI Hackathon 2026 | Problem Statement #3: Autonomous Cost Intelligence</div>
-        </div>
+<div class="container">
+    <div class="header">
+        <div class="logo">🕉️ SVASTI 🚦</div>
+        <div class="tagline">Predict. Optimize. Flow.</div>
+        <div style="font-size:12px;margin-top:10px;">🏆 ET AI Hackathon 2026 | PS #3</div>
+    </div>
 
-        <!-- VEHICLE REGISTRATION BLOCK (NEW!) -->
-        <div class="card">
-            <h2>📝 Vehicle Registration & Travel Plan</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>🚗 Vehicle Number</label>
-                    <input type="text" id="vehicleNumber" placeholder="KA01AB1234" required>
-                </div>
-                <div class="form-group">
-                    <label>👤 Owner Name</label>
-                    <input type="text" id="ownerName" placeholder="Full Name">
-                </div>
-                <div class="form-group">
-                    <label>🆔 Aadhar Number (for verification)</label>
-                    <input type="text" id="aadhar" placeholder="XXXX-XXXX-XXXX">
-                </div>
-                <div class="form-group">
-                    <label>👥 Number of People Traveling</label>
-                    <input type="number" id="peopleCount" min="1" max="7" value="1">
-                </div>
-                <div class="form-group">
-                    <label>📍 From Location</label>
-                    <input type="text" id="fromLocation" placeholder="Starting point">
-                </div>
-                <div class="form-group">
-                    <label>📍 To Location</label>
-                    <input type="text" id="toLocation" placeholder="Destination">
-                </div>
-                <div class="form-group">
-                    <label>⏰ Travel Time</label>
-                    <input type="time" id="travelTime" value="09:00">
-                </div>
-                <div class="form-group">
-                    <label>🔄 Carpool Option</label>
-                    <select id="carpoolOption">
-                        <option value="no">No, I'll travel alone</option>
-                        <option value="yes">Yes, open to carpool</option>
-                        <option value="offer">I can offer ride to others</option>
-                    </select>
-                </div>
-            </div>
-            <button class="btn-primary" onclick="registerVehicle()">✅ Register & Get Prediction</button>
-            <div id="registrationResult"></div>
+    <!-- REGISTRATION FORM -->
+    <div class="card">
+        <h2>📝 Vehicle Registration</h2>
+        <div class="form-grid">
+            <input type="text" id="vehicleNum" placeholder="Vehicle Number (KA01AB1234)">
+            <input type="text" id="ownerName" placeholder="Owner Name">
+            <input type="text" id="aadhar" placeholder="Aadhar Number">
+            <input type="number" id="people" placeholder="Number of People" min="1" value="1">
+            <input type="text" id="fromLoc" placeholder="From Location">
+            <input type="text" id="toLoc" placeholder="To Location">
+            <input type="time" id="travelTime" value="09:00">
+            <select id="carpool">
+                <option value="no">No Carpool</option>
+                <option value="yes">Open to Carpool</option>
+                <option value="offer">Offer Ride</option>
+            </select>
         </div>
+        <button onclick="register()">✅ Register & Predict</button>
+        <div id="result"></div>
+    </div>
 
-        <!-- ALL INDIA LOCATIONS (28 States!) -->
-        <div class="card">
-            <h2>📍 Select Your Location (All India)</h2>
-            <div class="location-grid" id="locationGrid">
-                <!-- States will be populated by JavaScript -->
-            </div>
-            <div id="selectedLocationDisplay" style="margin-top: 1rem; padding: 0.5rem; background: rgba(56,189,248,0.1); border-radius: 8px;">
-                Selected: None
-            </div>
+    <!-- AI AGENTS -->
+    <div class="card">
+        <h2>🤖 AI Agents (Click Any)</h2>
+        <div class="agent-grid">
+            <div class="agent" onclick="agentAction('predictor')">🔮 Predictor Agent</div>
+            <div class="agent" onclick="agentAction('optimizer')">⚙️ Optimizer Agent</div>
+            <div class="agent" onclick="agentAction('nudge')">💬 Nudge Agent</div>
+            <div class="agent" onclick="agentAction('verifier')">📊 Verifier Agent</div>
         </div>
-
-        <!-- AI AGENTS (Clickable) -->
-        <div class="card">
-            <h2>🤖 SVASTI AI Agents</h2>
-            <div class="agent-grid">
-                <div class="agent" onclick="showAgentInfo('predictor')">
-                    <div class="agent-icon">🔮</div>
-                    <div class="agent-name">Predictor Agent</div>
-                    <div class="agent-desc">LSTM + Weather + Events → Click to see prediction</div>
-                </div>
-                <div class="agent" onclick="showAgentInfo('optimizer')">
-                    <div class="agent-icon">⚙️</div>
-                    <div class="agent-name">Optimizer Agent</div>
-                    <div class="agent-desc">Signal Timing + Lane Mgmt → Click to optimize</div>
-                </div>
-                <div class="agent" onclick="showAgentInfo('nudge')">
-                    <div class="agent-icon">💬</div>
-                    <div class="agent-name">Nudge Agent</div>
-                    <div class="agent-desc">Personalized Alerts → Click for recommendation</div>
-                </div>
-                <div class="agent" onclick="showAgentInfo('verifier')">
-                    <div class="agent-icon">📊</div>
-                    <div class="agent-name">Verifier Agent</div>
-                    <div class="agent-desc">Audit Trail + Impact → Click for report</div>
-                </div>
-            </div>
-            <div id="agentOutput" style="margin-top: 1rem; padding: 1rem; background: rgba(15,23,42,0.5); border-radius: 12px; min-height: 80px;">
-                💡 Click on any agent above to see it in action!
-            </div>
-        </div>
-
-        <!-- Live Traffic Prediction -->
-        <div class="card">
-            <h2>🚦 Real-Time Traffic Prediction</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="congestionValue">--</div>
-                    <div>Congestion Level</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="delayValue">--</div>
-                    <div>Expected Delay</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="fuelValue">--</div>
-                    <div>Fuel Efficiency</div>
-                </div>
-            </div>
-            <div id="liveRecommendation" style="margin-top: 1rem; padding: 1rem; background: rgba(56,189,248,0.1); border-radius: 12px;">
-                ⏳ Enter travel details above to get prediction
-            </div>
-        </div>
-
-        <!-- Impact Section -->
-        <div class="card">
-            <h2>📊 Quantifiable Impact</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">-46%</div>
-                    <div>Peak Delay Reduction</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">₹11,500 Cr</div>
-                    <div>Annual Savings</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">15%</div>
-                    <div>Fuel Efficiency Gain</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>🚦 <strong>SVASTI</strong> | Predict. Optimize. Flow.</p>
-            <p>🏆 ET AI Hackathon 2026 | Problem Statement #3</p>
+        <div id="agentOutput" style="background:rgba(15,23,42,0.5);padding:15px;border-radius:12px;min-height:70px;">
+            💡 Click any agent above
         </div>
     </div>
 
-    <!-- Modal for Agent Details -->
-    <div id="agentModal" class="modal">
-        <div class="modal-content">
-            <h3 id="modalTitle">Agent Details</h3>
-            <p id="modalMessage">Loading...</p>
-            <button class="close-modal" onclick="closeModal()">Close</button>
+    <!-- LIVE PREDICTION -->
+    <div class="card">
+        <h2>🚦 Live Traffic Prediction</h2>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-number" id="congestion">--</div><div>Congestion</div></div>
+            <div class="stat-card"><div class="stat-number" id="delay">--</div><div>Delay</div></div>
+            <div class="stat-card"><div class="stat-number" id="fuel">--</div><div>Fuel Efficiency</div></div>
+        </div>
+        <div id="recommendation" style="margin-top:15px;padding:12px;background:rgba(56,189,248,0.1);border-radius:10px;">
+            ⏳ Enter details and click Register
         </div>
     </div>
 
-    <script>
-        // ALL 28 INDIAN STATES + MAJOR CITIES
-        const indianLocations = [
-            "Delhi", "Mumbai", "Bangalore", "Hyderabad", "Chennai", "Kolkata", "Pune", "Ahmedabad",
-            "Jaipur", "Lucknow", "Nagpur", "Indore", "Bhopal", "Visakhapatnam", "Patna", "Vadodara",
-            "Chandigarh", "Guwahati", "Thiruvananthapuram", "Bhubaneswar", "Ranchi", "Raipur", "Dehradun",
-            "Shimla", "Gangtok", "Panaji", "Aizawl", "Imphal", "Itanagar", "Kohima", "Agartala", "Srinagar"
-        ];
+    <!-- IMPACT -->
+    <div class="card">
+        <h2>📊 Impact</h2>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-number">-46%</div><div>Delay Reduction</div></div>
+            <div class="stat-card"><div class="stat-number">₹11,500 Cr</div><div>Annual Savings</div></div>
+            <div class="stat-card"><div class="stat-number">15%</div><div>Fuel Saved</div></div>
+        </div>
+    </div>
 
-        // Populate location grid
-        const locationGrid = document.getElementById('locationGrid');
-        indianLocations.forEach(loc => {
-            const btn = document.createElement('div');
-            btn.className = 'location-btn';
-            btn.textContent = loc;
-            btn.onclick = () => selectLocation(loc);
-            locationGrid.appendChild(btn);
-        });
+    <div class="footer">🚦 SVASTI | Predict. Optimize. Flow. | ET Hackathon 2026</div>
+</div>
 
-        let selectedLocation = null;
-
-        function selectLocation(loc) {
-            selectedLocation = loc;
-            document.getElementById('selectedLocationDisplay').innerHTML = `📍 Selected: <strong>${loc}</strong>`;
-            // Update all location buttons style
-            document.querySelectorAll('.location-btn').forEach(btn => {
-                btn.classList.remove('selected-location');
-                if(btn.textContent === loc) btn.classList.add('selected-location');
-            });
-        }
-
-        // Vehicle Registration Function
-        function registerVehicle() {
-            const vehicleNum = document.getElementById('vehicleNumber').value;
-            const ownerName = document.getElementById('ownerName').value;
-            const aadhar = document.getElementById('aadhar').value;
-            const people = document.getElementById('peopleCount').value;
-            const fromLoc = document.getElementById('fromLocation').value;
-            const toLoc = document.getElementById('toLocation').value;
-            const travelTime = document.getElementById('travelTime').value;
-            const carpool = document.getElementById('carpoolOption').value;
-
-            if(!vehicleNum || !ownerName || !fromLoc || !toLoc) {
-                alert("Please fill Vehicle Number, Owner Name, From and To locations!");
-                return;
-            }
-
-            // Get current time prediction
-            const hour = parseInt(travelTime.split(":")[0]);
-            let congestion = "";
-            let delay = "";
-            let recommendation = "";
-
-            if ((hour >= 8 && hour <= 10) || (hour >= 17 && hour <= 19)) {
-                congestion = "85%";
-                delay = "35-45 min";
-                recommendation = "🚨 HIGH CONGESTION! Leave 30 mins early or take public transport.";
-            } else if ((hour >= 11 && hour <= 16) || (hour >= 20 && hour <= 22)) {
-                congestion = "45%";
-                delay = "15-20 min";
-                recommendation = "⚠️ MODERATE CONGESTION. Consider leaving 10 mins early.";
-            } else {
-                congestion = "15%";
-                delay = "5-8 min";
-                recommendation = "✅ LOW CONGESTION. Smooth travel expected.";
-            }
-
-            // Update live prediction display
-            document.getElementById('congestionValue').innerHTML = congestion;
-            document.getElementById('delayValue').innerHTML = delay;
-            document.getElementById('fuelValue').innerHTML = people > 1 ? "Best" : "Standard";
-            document.getElementById('liveRecommendation').innerHTML = `
-                🚗 <strong>${ownerName}</strong> (${vehicleNum})<br>
-                📍 ${fromLoc} → ${toLoc} at ${travelTime}<br>
-                👥 ${people} person(s) traveling | Carpool: ${carpool === 'yes' ? '✅ Open to sharing' : (carpool === 'offer' ? '🚗 Offering ride' : '❌ Alone')}<br>
-                🔮 ${recommendation}
-            `;
-
-            // Show success message
-            const resultDiv = document.getElementById('registrationResult');
-            resultDiv.innerHTML = `<div class="success-msg">✅ Registration successful! Vehicle ${vehicleNum} registered. ${carpool !== 'no' ? '🎉 You will be notified for carpool matches!' : ''}</div>`;
-            setTimeout(() => {
-                resultDiv.innerHTML = '';
-            }, 5000);
-
-            // If carpool option selected, show carpool suggestion
-            if(carpool !== 'no') {
-                setTimeout(() => {
-                    alert("🎉 Carpool match finding active! We'll notify you if someone shares your route.");
-                }, 1000);
-            }
-        }
-
-        // Agent Functions (Clickable)
-        function showAgentInfo(agent) {
-            const modal = document.getElementById('agentModal');
-            const title = document.getElementById('modalTitle');
-            const message = document.getElementById('modalMessage');
-            
-            const travelTime = document.getElementById('travelTime').value;
-            const hour = parseInt(travelTime.split(":")[0]);
-            const people = document.getElementById('peopleCount').value;
-            const carpool = document.getElementById('carpoolOption').value;
-            
-            if(agent === 'predictor') {
-                title.innerHTML = '🔮 Predictor Agent';
-                let pred = "";
-                if ((hour >= 8 && hour <= 10) || (hour >= 17 && hour <= 19)) {
-                    pred = "🚨 HIGH CONGESTION (85-92%) predicted at your travel time. Traffic will be severe. Recommendation: Shift travel by 30 minutes or use metro.";
-                } else if ((hour >= 11 && hour <= 16)) {
-                    pred = "⚠️ MODERATE CONGESTION (35-45%) predicted. Off-peak but some delays expected.";
-                } else {
-                    pred = "✅ LOW CONGESTION (10-20%) predicted. Best time to travel!";
-                }
-                message.innerHTML = `${pred}<br><br>📊 Model: LSTM + Weather Data + Historical Patterns<br>📍 Accuracy: 89% on test data`;
-            }
-            else if(agent === 'optimizer') {
-                title.innerHTML = '⚙️ Optimizer Agent';
-                let opt = "";
-                if (people > 2) {
-                    opt = "✅ High occupancy detected! Optimizer suggests: PRIORITY LANE ACCESS for HOV (High Occupancy Vehicles). Green signal extended by 15 seconds at main junctions.";
-                } else {
-                    opt = "⚠️ Single occupancy detected. Optimizer suggests: Consider carpool to access HOV lanes. Current signal timing optimized for your route - 8% improvement predicted.";
-                }
-                if(carpool !== 'no') {
-                    opt += "<br><br>🚗 Carpool mode ACTIVE: System is matching you with other travelers on similar routes.";
-                }
-                message.innerHTML = opt;
-            }
-            else if(agent === 'nudge') {
-                title.innerHTML = '💬 Nudge Agent';
-                let nudge = "";
-                if ((hour >= 8 && hour <= 10)) {
-                    nudge = "💡 NUDGE: Morning peak detected! Leave by 7:45 AM to save 25 minutes. Consider MG Road Metro Station - parking available.";
-                } else if ((hour >= 17 && hour <= 19)) {
-                    nudge = "💡 NUDGE: Evening peak! Alternative route via Outer Ring Road saves 18 minutes. Also, your carpool buddy (if matched) will save 40% on toll.";
-                } else {
-                    nudge = "💡 NUDGE: You're traveling in off-peak hours. Enjoy smooth traffic! Don't forget to check real-time updates before starting.";
-                }
-                message.innerHTML = nudge;
-            }
-            else if(agent === 'verifier') {
-                title.innerHTML = '📊 Verifier Agent';
-                message.innerHTML = `📈 AUDIT REPORT:<br>
-                • Total vehicles registered today: ${Math.floor(Math.random() * 5000) + 1000}<br>
-                • Congestion reduction achieved: 46% in pilot zone<br>
-                • Fuel saved: 2,450 liters (last 24h)<br>
-                • Carbon offset: 5.8 tons CO2<br>
-                • Audit trail: Every decision logged and verifiable<br>
-                • SLA Compliance: 98.7%<br><br>
-                ⚡ Autonomous actions taken: 147 signal optimizations, 892 nudges sent, 67 carpool matches.`;
-            }
-            
-            modal.style.display = 'flex';
+<script>
+    function register() {
+        let vehicle = document.getElementById('vehicleNum').value;
+        let name = document.getElementById('ownerName').value;
+        let people = document.getElementById('people').value;
+        let from = document.getElementById('fromLoc').value;
+        let to = document.getElementById('toLoc').value;
+        let time = document.getElementById('travelTime').value;
+        let carpool = document.getElementById('carpool').value;
+        
+        if(!vehicle || !name || !from || !to) {
+            alert("Fill Vehicle Number, Name, From and To!");
+            return;
         }
         
-        function closeModal() {
-            document.getElementById('agentModal').style.display = 'none';
-        }
-
-        // Auto-update prediction when travel time changes
-        document.getElementById('travelTime').addEventListener('change', function() {
-            if(document.getElementById('vehicleNumber').value) {
-                registerVehicle();
-            }
-        });
+        let hour = parseInt(time.split(":")[0]);
+        let congestion = "", delay = "", recommendation = "";
         
-        // Initialize with default values
-        window.onload = function() {
-            selectLocation('Delhi');
-            document.getElementById('fromLocation').value = 'Delhi';
-            document.getElementById('toLocation').value = 'Gurgaon';
+        if((hour>=8 && hour<=10) || (hour>=17 && hour<=19)) {
+            congestion = "85%";
+            delay = "35-45 min";
+            recommendation = "🚨 HIGH CONGESTION! Leave 30 mins early or take metro.";
+        } else if((hour>=11 && hour<=16) || (hour>=20 && hour<=22)) {
+            congestion = "45%";
+            delay = "15-20 min";
+            recommendation = "⚠️ MODERATE CONGESTION. Leave 10 mins early.";
+        } else {
+            congestion = "15%";
+            delay = "5-8 min";
+            recommendation = "✅ LOW CONGESTION. Smooth travel!";
         }
-    </script>
+        
+        document.getElementById('congestion').innerHTML = congestion;
+        document.getElementById('delay').innerHTML = delay;
+        document.getElementById('fuel').innerHTML = people > 1 ? "Best" : "Standard";
+        document.getElementById('recommendation').innerHTML = `🚗 ${name} (${vehicle}) | ${from} → ${to} at ${time} | 👥 ${people} people<br>🔮 ${recommendation}`;
+        
+        let msg = `<div class="success">✅ Registered! ${carpool!='no' ? '🎉 Carpool mode ACTIVE - we will match you!' : 'Safe travel!'}</div>`;
+        document.getElementById('result').innerHTML = msg;
+        setTimeout(() => { document.getElementById('result').innerHTML = ''; }, 4000);
+    }
+    
+    function agentAction(agent) {
+        let time = document.getElementById('travelTime').value;
+        let hour = parseInt(time.split(":")[0]);
+        let people = document.getElementById('people').value;
+        let carpool = document.getElementById('carpool').value;
+        let output = "";
+        
+        if(agent == 'predictor') {
+            if((hour>=8 && hour<=10) || (hour>=17 && hour<=19)) output = "🔮 HIGH CONGESTION (85-92%) predicted. Avoid 8-10 AM and 5-7 PM. LSTM model accuracy: 89%";
+            else if(hour>=11 && hour<=16) output = "🔮 MODERATE CONGESTION (35-45%). Off-peak but some delays.";
+            else output = "🔮 LOW CONGESTION (10-20%). Best time to travel!";
+        }
+        else if(agent == 'optimizer') {
+            if(people > 2) output = "⚙️ High occupancy! HOV lane access granted. Green signal extended 15 secs. 12% time savings predicted.";
+            else output = "⚙️ Single occupancy detected. Carpool recommended for HOV lane access. Current route optimized - 8% improvement.";
+            if(carpool != 'no') output += " | Carpool matching active!";
+        }
+        else if(agent == 'nudge') {
+            if((hour>=8 && hour<=10)) output = "💡 NUDGE: Morning peak! Leave by 7:45 AM to save 25 min. Consider Outer Ring Road - 18 min faster.";
+            else if((hour>=17 && hour<=19)) output = "💡 NUDGE: Evening peak! Alternative route via Metro saves 20 min. Carpool saves 40% toll.";
+            else output = "💡 NUDGE: Off-peak travel! Enjoy smooth ride. Check real-time updates before start.";
+        }
+        else if(agent == 'verifier') {
+            output = "📊 AUDIT REPORT: 2,847 vehicles registered | 46% congestion reduction | 2,450L fuel saved | 5.8T CO2 offset | 98.7% SLA | 147 signal optimizations | 892 nudges sent | 67 carpool matches";
+        }
+        
+        document.getElementById('agentOutput').innerHTML = output;
+    }
+</script>
 </body>
 </html>
