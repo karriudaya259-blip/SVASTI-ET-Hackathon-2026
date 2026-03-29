@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+
+        body {
+    background-image: url('svasti logo.jpeg');  /* or your file name */
+    background-size: cover;            /* full screen */
+    background-position: center;      /* center image */
+    background-repeat: no-repeat;     /* no repeat */
+    background-attachment: fixed;     /* stays fixed while scrolling */
+    
+    background-color: #0f172a;        /* fallback color */
+}
         * {
             margin: 0;
             padding: 0;
@@ -13,27 +23,11 @@
         }
 
         body {
-            <div style="text-align: center; margin-bottom: 20px;">
-  <img src="logo.png" alt="SVASTI Logo" style="width: 200px; height: auto; border-radius
-        
-        }
+            background-color: #0f172a;
+            }    
 
-        /* Single SVASTI Logo in Background */
-        .bg-logo {
-            position: fixed;
-            top: 100%;
-            left: 100%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-            background-image: svasti logo.jpeg;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            opacity: 0.1;
-            pointer-events: none;
-            z-index: 0;
-        }
+      
+       
 
         .container {
             max-width: 1200px;
@@ -219,7 +213,7 @@
 </head>
 <body>
 
-<div class="bg-logo"></div>
+
 
 <div class="container">
     <!-- Header -->
