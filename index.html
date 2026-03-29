@@ -302,12 +302,14 @@
                <option value="West Bengal">West Bengal</option>
               </select>
             </select>
-            <input type="text" id="from" placeholder="From" value="Connaught Place">
-            <input type="text" id="to" placeholder="To" value="Gurgaon">
-            <input type="date" id="date">
-            <input type="time" id="time" value="09:00">
-            <select id="carpool"><option value="no">No Carpool</option><option value="yes">Open to Carpool</option></select>
-        </div>
+              <input type="text" id="from" name="from" placeholder="From" value="{{ request.POST.from }}">
+              <input type="text" id="to" name="to" placeholder="To" value="{{ request.POST.to }}">
+              <input type="date" id="date" name="date" value="{{ request.POST.date }}">
+              <input type="time" id="time" name="time" value="{{ request.POST.time }}">
+              <select id="carpool" name="carpool">
+              <option value="no" {% if request.POST.carpool == "no" %}selected{% endif %}>No Carpool</option>
+              <option value="yes" {% if request.POST.carpool == "yes" %}selected{% endif %}>Open to Carpool</option>
+</select>        </div>
         <button onclick="register()">Register & Predict</button>
         <div id="result"></div>
     </div>
