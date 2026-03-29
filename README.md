@@ -1,25 +1,43 @@
-# 🧠 SVASTI - Predict. Nudge. Flow. 🚦
-**ET AI Hackathon 2026 PS5: Traffic Supply Chain Optimizer** [code_file:16]
+# SVASTI – Citizen Mobility Platform  
+**Predict. Optimize. Flow.**
 
-## 🚨 Problem
-- Delhi congestion: ₹15,000cr annual loss [web:3]
-- Peak delays: 35 minutes average
-- Emissions + accidents exploding
+## 🌐 Abstract
+SVASTI is a citizen‑centric, AI‑powered mobility platform designed to reduce congestion, improve compliance, and enhance safety across **all 29 states of India**.  
+The name *SVASTI* comes from Sanskrit, meaning **peace 🕊️**, symbolizing our vision of peaceful, optimized journeys for every citizen.
 
-## 🧠 Solution  
-SVASTI predicts congestion BEFORE it happens, sends nudges, optimizes lanes.
+## 🚦 Problem
+- Increasing congestion in Indian cities
+- Unpredictable travel times
+- Compliance challenges with vehicle documents
+- Lack of citizen‑focused safety features
 
-**Live Results:**
+## 💡 Solution
+SVASTI integrates **AI traffic forecasting, compliance workflows, and citizen services** into one platform:
+- **State & City Selection:** Dropdown for all 29 states with auto‑suggest for cities  
+- **Vehicle Registration Workflow:** Aadhaar, License, RC, Insurance, PUC  
+- **Google Maps Integration:** Live “from‑to” routes, congestion overlays, travel time predictions  
+- **Traffic Forecasts:** AI‑driven congestion prediction with **time vs. vehicle flow graphs**  
+- **Carpool Options:** Vehicle type‑based shared travel recommendations  
+- **Helpline Numbers:** District‑specific traffic control helplines displayed dynamically  
+- **Citizen Notifications:** Mobile confirmation after registration  
+- **Data Security:** Aadhaar and vehicle documents processed with privacy safeguards  
 
-## 📱 Live Results
-![Impact](impact.png)
-![Forecast](forecast.png)
-![Dashboard](dashboard.png)
+## 🎯 Impact
+- Reduced commute times  
+- Safer roads with helpline integration  
+- Lower emissions through carpooling  
+- Improved compliance and citizen trust  
+- Scalable solution for nationwide deployment  
 
-## 📊 Impact
-| Metric | Baseline | SVASTI | Gain |
-|--------|----------|--------|------|
-| Delay | 35 min | 19 min | **-46%** |
-| Savings | - | ₹2,000cr | Top 10 cities |
+## 🚀 Demo
+- **Live Site:** [SVASTI GitHub Pages](https://karriudaya259-blip.github.io/SVASTI-ET-Hackathon-2026/)  
+- **Interactive App:** [Citizen Mobility Platform (Replit)](https://citizen-mobility-platform--karrisree02.replit.app)  
 
-**Predict. Nudge. Flow.**
+## 🛠️ Tech Stack
+- **Frontend:** HTML, CSS, JavaScript  
+- **Backend/Demo:** Python (Streamlit/Replit)  
+- **Integrations:** Google Maps API, AI traffic forecasting  
+
+## ✨ Vision
+SVASTI is not just a hackathon prototype — it is a scalable vision for intelligent, sustainable urban mobility across India.  
+**SVASTI means peace — and that is our promise: peaceful, optimized, and intelligent journeys for every citizen.**
