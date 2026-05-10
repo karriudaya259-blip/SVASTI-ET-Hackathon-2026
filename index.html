@@ -1,590 +1,552 @@
+
+
+
+
+
+
+
+/mnt/user-data/outputs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SVASTI - Predict. Optimize. Flow.</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-       body {
-    background: #0a0f1a;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    color: #e2e8f0; /* Soft white/light gray for better readability */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVASTI – Predict. Optimize. Flow.</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#060d1f;--navy2:#0b1529;--navy3:#101e38;
+  --panel:rgba(11,21,41,0.84);--border:rgba(0,180,255,0.18);--border2:rgba(0,180,255,0.35);
+  --sky:#00b4ff;--sky2:#00e5ff;--amber:#ffb347;--green:#00e676;--red:#ff5252;
+  --text:#e8f4fb;--muted:#7aadcc;
+  --font-head:'Rajdhani',sans-serif;--font-body:'Noto Sans',sans-serif;
 }
-
-        /* Single SVASTI Logo in Background - MORE VISIBLE */
-        .bg-logo {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-            background-image: url('svasti logo.jpeg');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            background: #0f172a;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid #38bdf8;
-        }
-
-        .logo-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 2px solid #38bdf8;
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            font-size: 42px;
-            color: #38bdf8;
-        }
-
-        .tagline {
-    color: #cbd5e1; /* Changed from #94a3b8 to a lighter slate */
-    font-size: 16px;
+body{background:var(--navy);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
+.bg-fixed{position:fixed;inset:0;background-image:url('svasti logo.jpeg');background-size:cover;background-position:center 30%;z-index:0;filter:brightness(0.22) saturate(0.7)}
+.app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 16px 60px}
+.hero{display:flex;flex-direction:column;align-items:center;padding:48px 20px 32px;text-align:center}
+.logo-circle{width:110px;height:110px;border-radius:50%;border:3px solid var(--sky);overflow:hidden;box-shadow:0 0 32px rgba(0,180,255,0.4),0 0 0 6px rgba(0,180,255,0.08);margin-bottom:20px;background:var(--navy2)}
+.logo-circle img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.hero-title{font-family:var(--font-head);font-size:64px;font-weight:700;letter-spacing:6px;color:#fff;line-height:1;text-shadow:0 0 40px rgba(0,180,255,0.5)}
+.hero-tag{font-size:15px;color:var(--sky2);letter-spacing:4px;margin-top:8px;font-weight:500}
+.hero-desc{margin-top:12px;font-size:14px;color:var(--muted);max-width:420px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:18px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.card-title{font-family:var(--font-head);font-size:20px;font-weight:600;color:var(--sky2);letter-spacing:1px;margin-bottom:18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);padding-bottom:12px}
+.profile-bar{background:rgba(0,180,255,0.07);border:1px solid var(--border2);border-radius:14px;padding:14px 18px;margin-bottom:18px;display:none;align-items:center;gap:14px;backdrop-filter:blur(10px)}
+.profile-bar.show{display:flex}
+.avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--sky),#0066cc);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:22px;font-weight:700;color:#fff;flex-shrink:0}
+.profile-info{flex:1}
+.profile-name{font-family:var(--font-head);font-size:17px;font-weight:600;color:var(--text);letter-spacing:0.5px}
+.profile-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.btn-sm{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;transition:all .2s}
+.btn-sm:hover{border-color:var(--red);color:var(--red)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg.full{grid-column:1/-1}
+.lbl{font-size:10px;font-family:var(--font-head);letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+input,select{background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:10px 12px;border-radius:10px;color:var(--text);font-family:var(--font-body);font-size:14px;width:100%;transition:border-color .2s}
+input:focus,select:focus{outline:none;border-color:var(--sky)}
+select option{background:#0b1529}
+input::placeholder{color:rgba(122,173,204,0.5)}
+.jrow{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.jbox{flex:1}
+.jlbl{font-size:10px;font-family:var(--font-head);letter-spacing:2px;color:var(--muted);margin-bottom:4px}
+.jinput{background:transparent;border:none;color:var(--text);font-size:15px;font-family:var(--font-body);font-weight:500;width:100%;padding:0}
+.jinput:focus{outline:none}
+.jarrow{color:var(--sky);font-size:22px;flex-shrink:0}
+.cp-row{display:flex;gap:8px;margin-top:4px}
+.cp-btn{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--muted);padding:9px 6px;border-radius:8px;cursor:pointer;font-size:12px;font-family:var(--font-body);text-align:center;transition:all .2s}
+.cp-btn.active{background:rgba(0,180,255,0.1);border-color:var(--sky);color:var(--sky2)}
+.btn-main{width:100%;margin-top:16px;background:var(--sky);color:var(--navy);border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:700;font-family:var(--font-head);letter-spacing:2px;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.btn-main:hover{background:var(--sky2);transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,180,255,0.35)}
+.pred-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.pred-card{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
+.pred-val{font-family:var(--font-head);font-size:30px;font-weight:700;color:var(--sky2);line-height:1}
+.pred-lbl{font-size:11px;color:var(--muted);margin-top:5px;letter-spacing:1px;font-family:var(--font-head)}
+.pred-msg{background:rgba(255,255,255,0.04);border-radius:10px;padding:14px;font-size:13px;color:var(--muted);text-align:center;line-height:1.7;white-space:pre-line}
+.loc-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(0,180,255,0.08);border:1px solid var(--border2);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--sky);font-family:var(--font-head);letter-spacing:1px;margin-left:10px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.hl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.hl-card{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.hl-card.emg{border-color:rgba(255,82,82,0.35)}
+.hl-icon{font-size:22px;margin-bottom:6px}
+.hl-name{font-size:11px;color:var(--muted);margin-bottom:4px;font-family:var(--font-head);letter-spacing:1px}
+.hl-num{font-size:14px;font-weight:700;color:var(--red);font-family:var(--font-head)}
+.hl-num.ok{color:var(--green)}
+.agent-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.agent{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:all .2s}
+.agent:hover,.agent.active{border-color:var(--sky2);background:rgba(0,180,255,0.07)}
+.agent-icon{font-size:26px;margin-bottom:8px}
+.agent-name{font-family:var(--font-head);font-size:16px;font-weight:600;color:var(--text);letter-spacing:.5px}
+.agent-role{font-size:11px;color:var(--muted);margin-top:3px;font-family:var(--font-head);letter-spacing:1px}
+.agent-out{margin-top:14px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:13px;color:var(--sky2);min-height:50px;line-height:1.7;font-family:var(--font-body);white-space:pre-line}
+.audit-box{background:rgba(0,0,0,0.4);border:1px solid rgba(0,180,255,0.12);border-radius:10px;padding:12px;max-height:190px;overflow-y:auto;font-size:12px;font-family:var(--font-head)}
+.ae{padding:5px 0;border-bottom:1px solid rgba(0,180,255,0.07);color:#4d8aaa;line-height:1.5}
+.ae:last-child{border-bottom:none;color:var(--sky)}
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.impact-card{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.impact-num{font-family:var(--font-head);font-size:24px;font-weight:700;color:var(--green)}
+.impact-lbl{font-size:11px;color:var(--muted);margin-top:4px}
+.result{margin-top:12px;padding:12px 16px;border-radius:10px;font-size:13px;line-height:1.6;display:none}
+.result.show{display:block}
+.result.s{background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.35);color:var(--green)}
+.result.w{background:rgba(255,179,71,0.08);border:1px solid rgba(255,179,71,0.35);color:var(--amber)}
+.result.d{background:rgba(255,82,82,0.08);border:1px solid rgba(255,82,82,0.35);color:var(--red)}
+.footer{text-align:center;padding:20px;font-size:12px;color:var(--muted);font-family:var(--font-head);letter-spacing:2px}
+canvas{border-radius:10px}
+iframe{border-radius:12px;border:none;width:100%;height:300px;display:block}
+@media(max-width:600px){
+  .form-grid,.agent-grid,.hl-grid,.pred-grid,.impact-grid{grid-template-columns:1fr}
+  .hero-title{font-size:44px}
 }
-
-.hint {
-    color: #cbd5e1; /* Changed from #94a3b8 to a lighter slate */
-    font-size: 12px;
-    margin-top: 8px;
-    text-align: center;
-}
-
-        /* Cards */
-        .card {
-            background: #0f172a;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #1e293b;
-        }
-
-        .card h2 {
-            color: #38bdf8;
-            margin-bottom: 15px;
-            font-size: 22px;
-            border-left: 3px solid #38bdf8;
-            padding-left: 12px;
-        }
-
-        /* Form */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        input, select {
-    background: #1e293b;
-    border: 1px solid #475569; /* Lighter border for definition */
-    padding: 10px;
-    border-radius: 10px;
-    color: #ffffff; /* Pure white text for typing */
-    width: 100%;
-}
-
-/* This helps the placeholder text stand out slightly more */
-input::placeholder {
-    color: #94a3b8;
-}
-
-        button {
-            background: #38bdf8;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            color: #0f172a;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background: #a855f7;
-            color: white;
-        }
-
-        /* AI Agents */
-        .agent-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .agent {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px solid #334155;
-            transition: all 0.2s;
-        }
-
-        .agent:hover {
-            background: #38bdf8;
-            color: #0f172a;
-            transform: scale(1.02);
-        }
-
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .stat-card {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: bold;
-            color: #38bdf8;
-        }
-
-        /* Helpline */
-        .helpline-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .helpline-card {
-            background: #1e293b;
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ef4444;
-        }
-
-        .helpline-number {
-            font-size: 16px;
-            font-weight: bold;
-            color: #ef4444;
-        }
-
-       .success {
-           background: linear-gradient(90deg, #22c55e, #16a34a);
-           color: white;
-           border: none;
-           padding: 10px;
-           border-radius: 8px;
-           margin-top: 10px;
-           text-align: center;
-           font-weight: bold;
-           box-shadow: 0 0 10px #22c55e;
-       }
-
-        .audit-log {
-            background: #1e1b4b;
-            border: 1px solid #8b5cf6;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            max-height: 150px;
-            overflow-y: auto;
-            font-size: 12px;
-            font-family: monospace;
-        }
-
-        .audit-entry {
-            padding: 5px;
-            border-bottom: 1px solid #334155;
-            color: #a5b4fc;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 15px;
-            color: #64748b;
-        }
-
-        canvas {
-            background: #0f172a;
-            border-radius: 12px;
-            padding: 10px;
-        }
-
-        iframe {
-            border-radius: 12px;
-            border: none;
-        }
-
-        .hint {
-            color: #94a3b8;
-            font-size: 12px;
-            margin-top: 8px;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .form-grid, .agent-grid, .stats-grid, .helpline-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+</style>
 </head>
 <body>
+<div class="bg-fixed"></div>
+<div class="app">
 
-<div class="bg-logo"></div>
-
-<div class="container">
-    <!-- Header -->
-    <div class="header">
-        <img src="svasti logo.jpeg" class="logo-img" onerror="this.style.display='none'">
-        <h1>SVASTI 🚦</h1>
-        <div class="tagline">Predict. Optimize. Flow.</div>
-        <div style="margin-top: 8px; font-size: 12px; color: #38bdf8;">🏆 ET AI Hackathon 2026 | PS #3: Autonomous Cost Intelligence</div>
+  <div class="hero">
+    <div class="logo-circle">
+      <img src="svasti logo.jpeg" alt="SVASTI" onerror="this.style.display='none'">
     </div>
+    <div class="hero-title">SVASTI</div>
+    <div class="hero-tag">PREDICT · OPTIMIZE · FLOW</div>
+    <div class="hero-desc">India's AI-Powered Urban Mobility Platform · Smooth Traffic. Peaceful Cities. Prosperous India.</div>
+  </div>
 
-    <!-- Registration -->
-    <div class="card">
-        <h2>📝 Vehicle Registration</h2>
+  <div class="profile-bar" id="profileBar">
+    <div class="avatar" id="profileAvatar">R</div>
+    <div class="profile-info">
+      <div class="profile-name" id="profileName">–</div>
+      <div class="profile-sub" id="profileSub">–</div>
+    </div>
+    <button class="btn-sm" onclick="logout()">Logout</button>
+  </div>
+
+  <div class="card" id="regCard">
+    <div class="card-title" id="regTitle">📝 Register & Book Journey Slot</div>
+
+    <div id="newForm">
+      <div class="form-grid">
+        <div class="fg"><span class="lbl">Full Name</span><input id="r_name" placeholder="e.g. Ravi Kumar"></div>
+        <div class="fg"><span class="lbl">Mobile</span><input id="r_phone" placeholder="10-digit" type="tel" maxlength="10"></div>
+        <div class="fg"><span class="lbl">Vehicle Number</span><input id="r_vehicle" placeholder="e.g. TS09AB1234" style="text-transform:uppercase"></div>
+        <div class="fg"><span class="lbl">Vehicle Type</span>
+          <select id="r_vtype">
+            <option value="2w">Two Wheeler</option>
+            <option value="4w" selected>Four Wheeler</option>
+            <option value="auto">Auto / Cab</option>
+            <option value="hv">Heavy Vehicle</option>
+          </select>
+        </div>
+        <div class="fg"><span class="lbl">State</span>
+          <select id="r_state" onchange="onStateChange(this.value)">
+            <option>Andhra Pradesh</option><option>Bihar</option><option>Delhi</option>
+            <option>Gujarat</option><option>Haryana</option><option>Karnataka</option>
+            <option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option>
+            <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+            <option>Tamil Nadu</option><option selected>Telangana</option>
+            <option>Uttar Pradesh</option><option>West Bengal</option>
+          </select>
+        </div>
+        <div class="fg"><span class="lbl">District</span>
+          <select id="r_district"></select>
+        </div>
+        <div class="fg"><span class="lbl">Travelers</span><input id="r_people" type="number" min="1" max="8" value="1"></div>
+      </div>
+      <div style="margin-top:16px">
+        <div class="jrow">
+          <div class="jbox"><div class="jlbl">FROM</div><input class="jinput" id="r_from" placeholder="Starting point..."></div>
+          <div class="jarrow">→</div>
+          <div class="jbox"><div class="jlbl">TO</div><input class="jinput" id="r_to" placeholder="Destination..."></div>
+        </div>
         <div class="form-grid">
-            <input type="text" id="name" placeholder="Full Name">
-            <input type="tel" id="phone" placeholder="Mobile">
-            <input type="text" id="aadhar" placeholder="Aadhar">
-            <input type="text" id="vehicle" placeholder="Vehicle Number">
-            <input type="number" id="people" placeholder="People" min="1">
-            <input type="text" id="from" placeholder="From">
-            <input type="text" id="to" placeholder="To">
-            <input type="time" id="time">
-            <select id="state">
-               <option value="Andhra Pradesh">Andhra Pradesh</option>
-               <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-               <option value="Assam">Assam</option>
-               <option value="Bihar">Bihar</option>
-               <option value="Chhattisgarh">Chhattisgarh</option>
-               <option value="Goa">Goa</option>
-               <option value="Gujarat">Gujarat</option>
-               <option value="Haryana">Haryana</option>
-               <option value="Himachal Pradesh">Himachal Pradesh</option>
-               <option value="Jharkhand">Jharkhand</option>
-               <option value="Karnataka">Karnataka</option>
-               <option value="Kerala">Kerala</option>
-               <option value="Madhya Pradesh">Madhya Pradesh</option>
-               <option value="Maharashtra">Maharashtra</option>
-               <option value="Manipur">Manipur</option>
-               <option value="Meghalaya">Meghalaya</option>
-               <option value="Mizoram">Mizoram</option>
-               <option value="Nagaland">Nagaland</option>
-               <option value="Odisha">Odisha</option>
-               <option value="Punjab">Punjab</option>
-               <option value="Rajasthan">Rajasthan</option>
-               <option value="Sikkim">Sikkim</option>
-               <option value="Tamil Nadu">Tamil Nadu</option>
-               <option value="Telangana">Telangana</option>
-               <option value="Tripura">Tripura</option>
-               <option value="Uttar Pradesh">Uttar Pradesh</option>
-               <option value="Uttarakhand">Uttarakhand</option>
-               <option value="West Bengal">West Bengal</option>
-              </select>
-            </select>
-              <input type="text" id="from" name="from" placeholder="From" value="{{ request.POST.from }}">
-              <input type="text" id="to" name="to" placeholder="To" value="{{ request.POST.to }}">
-              <input type="date" id="date" name="date" value="{{ request.POST.date }}">
-              <input type="time" id="time" name="time" value="{{ request.POST.time }}">
-              <select id="carpool" name="carpool">
-              <option value="no" {% if request.POST.carpool == "no" %}selected{% endif %}>No Carpool</option>
-              <option value="yes" {% if request.POST.carpool == "yes" %}selected{% endif %}>Open to Carpool</option>
-</select>        </div>
-        <button onclick="register()">Register & Predict</button>
-        <div id="result"></div>
-    </div>
-
-    <!-- Map -->
-    <div class="card">
-        <h2>🗺️ Live Traffic Map</h2>
-        <iframe id="map" src="https://www.google.com/maps?q=Delhi&output=embed" width="100%" height="350"></iframe>
-    </div>
-
-    <!-- Helpline - Dynamic State Name -->
-    <div class="card">
-        <h2>🚨 Traffic Helpline</h2>
-        <div id="helpline" class="helpline-grid">
-            <div class="helpline-card">🚔 Delhi Police<br><span class="helpline-number">1095 / 011-25844444</span></div>
-            <div class="helpline-card">🚑 Emergency<br><span class="helpline-number">112</span></div>
-            <div class="helpline-card">🛣️ Highway Patrol<br><span class="helpline-number">1033</span></div>
+          <div class="fg"><span class="lbl">Journey Date</span><input id="r_date" type="date"></div>
+          <div class="fg"><span class="lbl">Departure Time</span><input id="r_time" type="time"></div>
         </div>
-        <div id="helplineAlert" class="hint" style="margin-top: 8px;"></div>
+        <div style="margin-top:12px">
+          <span class="lbl">Carpool Preference</span>
+          <div class="cp-row">
+            <div class="cp-btn active" id="cp0" onclick="setCP('no',0)">🚗 Solo</div>
+            <div class="cp-btn" id="cp1" onclick="setCP('open',1)">🤝 Open to Carpool</div>
+            <div class="cp-btn" id="cp2" onclick="setCP('offer',2)">🚘 Offering Ride</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-main" onclick="register()">🚦 REGISTER & BOOK SLOT</button>
     </div>
 
-    <!-- Graph -->
-    <div class="card">
-        <h2>📊 Traffic Volume Analysis</h2>
-        <canvas id="chart" height="200"></canvas>
-        <div class="hint">📈 Peak hours: 8-10 AM & 5-7 PM | Updates with each registration</div>
+    <div id="returnForm" style="display:none">
+      <div class="jrow">
+        <div class="jbox"><div class="jlbl">FROM</div><input class="jinput" id="j_from" placeholder="Starting point..."></div>
+        <div class="jarrow">→</div>
+        <div class="jbox"><div class="jlbl">TO</div><input class="jinput" id="j_to" placeholder="Destination..."></div>
+      </div>
+      <div class="form-grid">
+        <div class="fg"><span class="lbl">Journey Date</span><input id="j_date" type="date"></div>
+        <div class="fg"><span class="lbl">Departure Time</span><input id="j_time" type="time"></div>
+        <div class="fg"><span class="lbl">Travelers</span><input id="j_people" type="number" min="1" max="8" value="1"></div>
+        <div class="fg"><span class="lbl">Carpool</span>
+          <select id="j_carpool">
+            <option value="no">Solo</option>
+            <option value="open">Open to Carpool</option>
+            <option value="offer">Offering Ride</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-main" onclick="bookJourney()">📍 BOOK JOURNEY SLOT</button>
     </div>
 
-    <!-- AI Agents -->
-    <div class="card">
-        <h2>🤖 AI Agents (Click Any)</h2>
-        <div class="agent-grid">
-            <div class="agent" onclick="agentClick('predictor')">🔮 Predictor</div>
-            <div class="agent" onclick="agentClick('optimizer')">⚙️ Optimizer</div>
-            <div class="agent" onclick="agentClick('nudge')">💬 Nudge</div>
-            <div class="agent" onclick="agentClick('verifier')">📊 Verifier</div>
-        </div>
-        <div id="agentMsg" style="margin-top: 12px; padding: 12px; background: #1e293b; border-radius: 10px;">💡 Click any agent above for real-time analysis</div>
-    </div>
+    <div class="result" id="result"></div>
+  </div>
 
-    <!-- AUDIT TRAIL LOG (NEW - Shows all AI actions) -->
-    <div class="card">
-        <h2>📋 Audit Trail (AI Action Log)</h2>
-        <div id="auditLog" class="audit-log">
-            <div class="audit-entry">🟢 System initialized | SVASTI AI Agents ready</div>
-            <div class="audit-entry">📊 Live traffic monitoring active</div>
-        </div>
-        <div class="hint">✅ Every AI decision is logged here for compliance and verification</div>
+  <div class="card">
+    <div class="card-title">🚦 Live Prediction</div>
+    <div class="pred-grid">
+      <div class="pred-card"><div class="pred-val" id="pCong">--</div><div class="pred-lbl">CONGESTION</div></div>
+      <div class="pred-card"><div class="pred-val" id="pDelay">--</div><div class="pred-lbl">DELAY</div></div>
+      <div class="pred-card"><div class="pred-val" id="pFuel">--</div><div class="pred-lbl">FUEL</div></div>
     </div>
+    <div class="pred-msg" id="pMsg">Book a journey slot above to see your live traffic prediction.</div>
+  </div>
 
-    <!-- Live Prediction - WITH USER HINT -->
-    <div class="card">
-        <h2>🚦 Live Prediction</h2>
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-number" id="congestion">--</div><div>Congestion</div></div>
-            <div class="stat-card"><div class="stat-number" id="delay">--</div><div>Delay</div></div>
-            <div class="stat-card"><div class="stat-number" id="fuel">--</div><div>Fuel</div></div>
-        </div>
-        <div id="predictionMsg" style="margin-top: 10px; padding: 10px; background: #1e293b; border-radius: 8px;">
-            ⏳ Enter your travel details and click "Register & Predict" to see live traffic analysis
-        </div>
-    </div>
+  <div class="card">
+    <div class="card-title">🚨 Traffic Helpline <span class="loc-chip"><span class="dot"></span><span id="locLabel">Detecting...</span></span></div>
+    <div class="hl-grid" id="hlGrid"></div>
+    <div style="margin-top:10px;font-size:12px;color:var(--muted)">📢 Change state in the form to update helpline. GPS auto-detects your city.</div>
+  </div>
 
-    <!-- Impact -->
-    <div class="card">
-        <h2>📊 Measurable Impact</h2>
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-number">-46%</div><div>Peak Delay Reduction</div></div>
-            <div class="stat-card"><div class="stat-number">₹11,500 Cr</div><div>Annual Savings (Top 10 Cities)</div></div>
-            <div class="stat-card"><div class="stat-number">15%</div><div>Fuel Consumption Saved</div></div>
-        </div>
-        <div class="stats-grid" style="margin-top: 15px;">
-            <div class="stat-card"><div class="stat-number">5.8T</div><div>CO₂ Reduced/Day</div></div>
-            <div class="stat-card"><div class="stat-number">98.7%</div><div>SLA Compliance</div></div>
-            <div class="stat-card"><div class="stat-number">2,847+</div><div>Active Users</div></div>
-        </div>
-    </div>
-    </div>
+  <div class="card">
+    <div class="card-title">🗺️ Live Traffic Map</div>
+    <iframe id="mapFrame" src="https://www.google.com/maps?q=Hyderabad+traffic&output=embed" allowfullscreen></iframe>
+  </div>
 
-    <div class="footer">🚦 SVASTI | Predict. Optimize. Flow. | Made for Indian Cities | Full Audit Trail Enabled</div>
+  <div class="card">
+    <div class="card-title">📊 Traffic Volume — 24 Hour Pattern</div>
+    <canvas id="chart" height="160"></canvas>
+    <div style="margin-top:10px;font-size:12px;color:var(--muted)">🔴 Red = peak hours (8–10 AM, 5–8 PM) · Updates with each booked slot</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🤖 AI Agent Network</div>
+    <div class="agent-grid">
+      <div class="agent" id="ag-predictor" onclick="agentClick('predictor')"><div class="agent-icon">🔮</div><div class="agent-name">Predictor Agent</div><div class="agent-role">LSTM · CONGESTION FORECASTING</div></div>
+      <div class="agent" id="ag-optimizer" onclick="agentClick('optimizer')"><div class="agent-icon">⚙️</div><div class="agent-name">Optimizer Agent</div><div class="agent-role">SIGNAL · LANE · ROUTE</div></div>
+      <div class="agent" id="ag-nudge" onclick="agentClick('nudge')"><div class="agent-icon">💬</div><div class="agent-name">Nudge Agent</div><div class="agent-role">BEHAVIORAL · ALERTS · CARPOOL</div></div>
+      <div class="agent" id="ag-verifier" onclick="agentClick('verifier')"><div class="agent-icon">📊</div><div class="agent-name">Verifier Agent</div><div class="agent-role">AUDIT · SLA · COMPLIANCE</div></div>
+    </div>
+    <div class="agent-out" id="agentOut">▶ Click any agent to activate real-time analysis</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Audit Trail</div>
+    <div class="audit-box" id="auditBox">
+      <div class="ae">🟢 SVASTI online · AI agents ready</div>
+      <div class="ae">📡 Monitoring active · Awaiting journey slots</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📈 Measurable Impact</div>
+    <div class="impact-grid">
+      <div class="impact-card"><div class="impact-num">-46%</div><div class="impact-lbl">Peak Delay Reduction</div></div>
+      <div class="impact-card"><div class="impact-num">₹11,500 Cr</div><div class="impact-lbl">Annual Savings</div></div>
+      <div class="impact-card"><div class="impact-num">15%</div><div class="impact-lbl">Fuel Saved</div></div>
+      <div class="impact-card"><div class="impact-num">5.8T</div><div class="impact-lbl">CO₂ Reduced/Day</div></div>
+      <div class="impact-card"><div class="impact-num">98.7%</div><div class="impact-lbl">SLA Compliance</div></div>
+      <div class="impact-card"><div class="impact-num" id="slotCount">2,847+</div><div class="impact-lbl">Slots Booked Today</div></div>
+    </div>
+  </div>
+
+  <div class="footer">🚦 SVASTI · PREDICT · OPTIMIZE · FLOW · BUILT FOR INDIA · 2026</div>
 </div>
 
 <script>
-    // Chart Data
-    let chartData = [120, 180, 320, 580, 720, 890, 750, 420, 280, 190, 150, 130];
-    let labels = ['12AM', '2AM', '4AM', '6AM', '8AM', '10AM', '12PM', '2PM', '4PM', '6PM', '8PM', '10PM'];
-    
-    let myChart = new Chart(document.getElementById('chart'), {
-        type: 'line',
-        data: { labels: labels, datasets: [{ label: 'Vehicles/hour', data: chartData, borderColor: '#38bdf8', backgroundColor: 'rgba(56,189,248,0.1)', fill: true, tension: 0.4 }] },
-        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff' } } } }
-    });
+const STATE_DISTRICTS = {
+  "Andhra Pradesh":["Anantapur","Chittoor","East Godavari","Guntur","Krishna","Kurnool","Nellore","Prakasam","Srikakulam","Visakhapatnam","Vizianagaram","West Godavari","YSR Kadapa"],
+  "Telangana":["Adilabad","Bhadradri Kothagudem","Hyderabad","Jagtial","Jangaon","Kamareddy","Karimnagar","Khammam","Medak","Medchal–Malkajgiri","Nagarkurnool","Nalgonda","Nirmal","Nizamabad","Peddapalli","Rajanna Sircilla","Rangareddy","Sangareddy","Siddipet","Suryapet","Vikarabad","Wanaparthy","Warangal Rural","Warangal Urban","Yadadri Bhuvanagiri"],
+  "Karnataka":["Bagalkot","Ballari","Belagavi","Bengaluru Rural","Bengaluru Urban","Bidar","Chamarajanagar","Chikkaballapur","Chikkamagaluru","Chitradurga","Dakshina Kannada","Davangere","Dharwad","Gadag","Hassan","Haveri","Kalaburagi","Kodagu","Kolar","Koppal","Mandya","Mysuru","Raichur","Ramanagara","Shivamogga","Tumakuru","Udupi","Uttara Kannada","Vijayapura","Yadgir"],
+  "Tamil Nadu":["Ariyalur","Chengalpattu","Chennai","Coimbatore","Cuddalore","Dharmapuri","Dindigul","Erode","Kallakurichi","Kancheepuram","Kanyakumari","Karur","Krishnagiri","Madurai","Nagapattinam","Namakkal","Nilgiris","Perambalur","Pudukkottai","Ramanathapuram","Ranipet","Salem","Sivaganga","Tenkasi","Thanjavur","Theni","Thoothukudi","Tiruchirappalli","Tirunelveli","Tirupathur","Tiruppur","Tiruvallur","Tiruvannamalai","Tiruvarur","Vellore","Viluppuram","Virudhunagar"],
+  "Maharashtra":["Ahmednagar","Akola","Amravati","Aurangabad","Beed","Bhandara","Buldhana","Chandrapur","Dhule","Gadchiroli","Gondia","Hingoli","Jalgaon","Jalna","Kolhapur","Latur","Mumbai City","Mumbai Suburban","Nagpur","Nanded","Nandurbar","Nashik","Osmanabad","Palghar","Parbhani","Pune","Raigad","Ratnagiri","Sangli","Satara","Sindhudurg","Solapur","Thane","Wardha","Washim","Yavatmal"],
+  "Gujarat":["Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch","Bhavnagar","Botad","Chhota Udaipur","Dahod","Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kheda","Kutch","Mahisagar","Mehsana","Morbi","Narmada","Navsari","Panchmahal","Patan","Porbandar","Rajkot","Sabarkantha","Surat","Surendranagar","Tapi","Vadodara","Valsad"],
+  "Delhi":["Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi","North West Delhi","Shahdara","South Delhi","South East Delhi","South West Delhi","West Delhi"],
+  "Rajasthan":["Ajmer","Alwar","Banswara","Baran","Barmer","Bharatpur","Bhilwara","Bikaner","Bundi","Chittorgarh","Churu","Dausa","Dholpur","Dungarpur","Hanumangarh","Jaipur","Jaisalmer","Jalore","Jhalawar","Jhunjhunu","Jodhpur","Karauli","Kota","Nagaur","Pali","Pratapgarh","Rajsamand","Sawai Madhopur","Sikar","Sirohi","Sri Ganganagar","Tonk","Udaipur"],
+  "Uttar Pradesh":["Agra","Aligarh","Ambedkar Nagar","Ayodhya","Azamgarh","Bareilly","Basti","Bijnor","Bulandshahr","Deoria","Etawah","Farrukhabad","Fatehpur","Firozabad","Gautam Buddha Nagar","Ghaziabad","Ghazipur","Gonda","Gorakhpur","Hapur","Hardoi","Jalaun","Jaunpur","Jhansi","Kanpur Nagar","Kaushambi","Kushinagar","Lakhimpur Kheri","Lucknow","Mathura","Mau","Meerut","Mirzapur","Moradabad","Muzaffarnagar","Pilibhit","Prayagraj","Raebareli","Rampur","Saharanpur","Sitapur","Sultanpur","Unnao","Varanasi"],
+  "West Bengal":["Alipurduar","Bankura","Birbhum","Cooch Behar","Dakshin Dinajpur","Darjeeling","Hooghly","Howrah","Jalpaiguri","Jhargram","Kalimpong","Kolkata","Malda","Murshidabad","Nadia","North 24 Parganas","Paschim Bardhaman","Paschim Medinipur","Purba Bardhaman","Purba Medinipur","Purulia","South 24 Parganas","Uttar Dinajpur"],
+  "Kerala":["Alappuzha","Ernakulam","Idukki","Kannur","Kasaragod","Kollam","Kottayam","Kozhikode","Malappuram","Palakkad","Pathanamthitta","Thiruvananthapuram","Thrissur","Wayanad"],
+  "Punjab":["Amritsar","Barnala","Bathinda","Faridkot","Fatehgarh Sahib","Fazilka","Ferozepur","Gurdaspur","Hoshiarpur","Jalandhar","Kapurthala","Ludhiana","Mansa","Moga","Mohali","Muktsar","Pathankot","Patiala","Rupnagar","Sangrur","Shaheed Bhagat Singh Nagar","Tarn Taran"],
+  "Madhya Pradesh":["Agar Malwa","Alirajpur","Anuppur","Ashoknagar","Balaghat","Barwani","Betul","Bhind","Bhopal","Burhanpur","Chhatarpur","Chhindwara","Damoh","Datia","Dewas","Dhar","Dindori","Guna","Gwalior","Harda","Hoshangabad","Indore","Jabalpur","Jhabua","Katni","Khandwa","Khargone","Mandla","Mandsaur","Morena","Narsinghpur","Neemuch","Panna","Raisen","Rajgarh","Ratlam","Rewa","Sagar","Satna","Sehore","Seoni","Shahdol","Shajapur","Sheopur","Shivpuri","Sidhi","Singrauli","Tikamgarh","Ujjain","Umaria","Vidisha"],
+  "Bihar":["Araria","Arwal","Aurangabad","Banka","Begusarai","Bhagalpur","Bhojpur","Buxar","Darbhanga","East Champaran","Gaya","Gopalganj","Jamui","Jehanabad","Kaimur","Katihar","Khagaria","Kishanganj","Lakhisarai","Madhepura","Madhubani","Munger","Muzaffarpur","Nalanda","Nawada","Patna","Purnia","Rohtas","Saharsa","Samastipur","Saran","Sheikhpura","Sheohar","Sitamarhi","Siwan","Supaul","Vaishali","West Champaran"],
+  "Odisha":["Angul","Balangir","Balasore","Bargarh","Bhadrak","Boudh","Cuttack","Deogarh","Dhenkanal","Gajapati","Ganjam","Jagatsinghpur","Jajpur","Jharsuguda","Kalahandi","Kandhamal","Kendrapara","Kendujhar","Khordha","Koraput","Malkangiri","Mayurbhanj","Nabarangpur","Nayagarh","Nuapada","Puri","Rayagada","Sambalpur","Sonepur","Sundargarh"],
+  "Haryana":["Ambala","Bhiwani","Charkhi Dadri","Faridabad","Fatehabad","Gurugram","Hisar","Jhajjar","Jind","Kaithal","Karnal","Kurukshetra","Mahendragarh","Nuh","Palwal","Panchkula","Panipat","Rewari","Rohtak","Sirsa","Sonipat","Yamunanagar"]
+};
 
-    // Complete Helpline Data with State Names
-    const helplines = {
-        'Andhra Pradesh': { police: '1095 / 0866-2575333', name: 'AP Traffic Police' },
-        'Telangana': { police: '1095 / 040-27852400', name: 'Hyderabad Traffic Police' },
-        'Karnataka': { police: '1095 / 080-22943225', name: 'Karnataka Traffic Police' },
-        'Tamil Nadu': { police: '1095 / 044-23452345', name: 'TN Traffic Police' },
-        'Maharashtra': { police: '1095 / 022-24937777', name: 'Maharashtra Traffic Police' },
-        'Gujarat': { police: '1095 / 079-25501234', name: 'Gujarat Traffic Police' },
-        'Rajasthan': { police: '1095 / 0141-2741234', name: 'Rajasthan Traffic Police' },
-        'Uttar Pradesh': { police: '1095 / 0522-2620500', name: 'UP Traffic Police' },
-        'West Bengal': { police: '1095 / 033-22143234', name: 'WB Traffic Police' },
-        'Delhi': { police: '1095 / 011-25844444', name: 'Delhi Traffic Police' }
+const HELPLINES = {
+  "Andhra Pradesh":{police:"1095 / 0866-2575333",name:"AP Traffic Police",city:"Vijayawada"},
+  "Telangana":{police:"1095 / 040-27852400",name:"Hyderabad Traffic Police",city:"Hyderabad"},
+  "Karnataka":{police:"1095 / 080-22943225",name:"Karnataka Traffic Police",city:"Bengaluru"},
+  "Tamil Nadu":{police:"1095 / 044-23452345",name:"TN Traffic Police",city:"Chennai"},
+  "Maharashtra":{police:"1095 / 022-24937777",name:"Mumbai Traffic Police",city:"Mumbai"},
+  "Gujarat":{police:"1095 / 079-25501234",name:"Gujarat Traffic Police",city:"Ahmedabad"},
+  "Rajasthan":{police:"1095 / 0141-2741234",name:"Rajasthan Traffic Police",city:"Jaipur"},
+  "Uttar Pradesh":{police:"1095 / 0522-2620500",name:"UP Traffic Police",city:"Lucknow"},
+  "West Bengal":{police:"1095 / 033-22143234",name:"Kolkata Traffic Police",city:"Kolkata"},
+  "Delhi":{police:"1095 / 011-25844444",name:"Delhi Traffic Police",city:"Delhi"},
+  "Punjab":{police:"1095 / 0172-2740050",name:"Punjab Traffic Police",city:"Chandigarh"},
+  "Haryana":{police:"1095 / 0172-2560026",name:"Haryana Traffic Police",city:"Gurugram"},
+  "Kerala":{police:"1095 / 0471-2721547",name:"Kerala Traffic Police",city:"Thiruvananthapuram"},
+  "Madhya Pradesh":{police:"1095 / 0755-2443500",name:"MP Traffic Police",city:"Bhopal"},
+  "Bihar":{police:"1095 / 0612-2201113",name:"Bihar Traffic Police",city:"Patna"},
+  "Odisha":{police:"1095 / 0674-2392800",name:"Odisha Traffic Police",city:"Bhubaneswar"}
+};
+
+const MAP_CITY = {
+  "Telangana":"Hyderabad","Andhra Pradesh":"Vijayawada","Karnataka":"Bengaluru",
+  "Tamil Nadu":"Chennai","Maharashtra":"Mumbai","Gujarat":"Ahmedabad","Delhi":"Delhi",
+  "West Bengal":"Kolkata","Uttar Pradesh":"Lucknow","Rajasthan":"Jaipur",
+  "Kerala":"Thiruvananthapuram","Punjab":"Chandigarh","Haryana":"Gurugram",
+  "Madhya Pradesh":"Bhopal","Bihar":"Patna","Odisha":"Bhubaneswar"
+};
+
+const BASE = [55,38,30,45,180,620,940,880,650,410,360,390,430,480,520,560,700,920,860,640,380,240,150,80];
+const HOURS = Array.from({length:24},(_,i)=>`${i===0?"12":i<=12?i:i-12}${i<12?"am":"pm"}`);
+let trafficData = [...BASE];
+let carpoolChoice = "no";
+let currentUser = null;
+let slotCount = parseInt(localStorage.getItem("svasti_count")||"2847");
+let activeAgent = null;
+let myChart;
+
+function initChart() {
+  myChart = new Chart(document.getElementById("chart"), {
+    type:"bar",
+    data:{
+      labels:HOURS,
+      datasets:[{
+        label:"Vehicles/hr",
+        data:[...trafficData],
+        backgroundColor:HOURS.map((_,i)=>((i>=7&&i<=10)||(i>=17&&i<=20))?"rgba(255,82,82,0.7)":"rgba(0,180,255,0.5)"),
+        borderColor:HOURS.map((_,i)=>((i>=7&&i<=10)||(i>=17&&i<=20))?"#ff5252":"#00b4ff"),
+        borderWidth:1,borderRadius:3
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{legend:{labels:{color:"#7aadcc",font:{family:"Rajdhani",size:11}}}},
+      scales:{
+        y:{ticks:{color:"#7aadcc",font:{size:10}},grid:{color:"rgba(0,180,255,0.08)"}},
+        x:{ticks:{color:"#7aadcc",font:{size:9}},grid:{color:"rgba(0,180,255,0.05)"}}
+      }
+    }
+  });
+}
+
+function updateChart(hour) {
+  trafficData[hour] = Math.min(1400, trafficData[hour]+18);
+  myChart.data.datasets[0].data = [...trafficData];
+  myChart.update("none");
+}
+
+function addAudit(msg) {
+  const box = document.getElementById("auditBox");
+  const ts = new Date().toLocaleTimeString("en-IN",{hour12:false});
+  const el = document.createElement("div");
+  el.className = "ae";
+  el.textContent = `[${ts}] ${msg}`;
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+  while(box.children.length > 20) box.removeChild(box.firstChild);
+}
+
+function renderHelpline(state, city) {
+  const h = HELPLINES[state] || HELPLINES["Telangana"];
+  document.getElementById("hlGrid").innerHTML = `
+    <div class="hl-card"><div class="hl-icon">🚔</div><div class="hl-name">${h.name}</div><div class="hl-num">${h.police}</div></div>
+    <div class="hl-card emg"><div class="hl-icon">🚑</div><div class="hl-name">Emergency</div><div class="hl-num">112</div></div>
+    <div class="hl-card"><div class="hl-icon">🛣️</div><div class="hl-name">Highway Patrol</div><div class="hl-num ok">1033</div></div>
+  `;
+  document.getElementById("locLabel").textContent = city || h.city;
+}
+
+function fillDistricts(state, selectId, selected) {
+  const sel = document.getElementById(selectId);
+  if(!sel) return;
+  const dists = STATE_DISTRICTS[state] || [];
+  sel.innerHTML = dists.map(d=>`<option${d===selected?" selected":""}>${d}</option>`).join("");
+}
+
+function onStateChange(state) {
+  fillDistricts(state,"r_district","");
+  const h = HELPLINES[state] || HELPLINES["Telangana"];
+  renderHelpline(state, h.city);
+  const city = MAP_CITY[state] || state;
+  document.getElementById("mapFrame").src = `https://www.google.com/maps?q=${encodeURIComponent(city+" traffic")}&output=embed`;
+  addAudit(`📍 Helpline updated → ${state}`);
+}
+
+function setCP(val, idx) {
+  carpoolChoice = val;
+  for(let i=0;i<3;i++) document.getElementById("cp"+i).classList.remove("active");
+  document.getElementById("cp"+idx).classList.add("active");
+}
+
+function getPred(hour, ppl, cp) {
+  const isPeak = (hour>=8&&hour<=10)||(hour>=17&&hour<=19);
+  const isMid = hour>=11&&hour<=16;
+  if(isPeak) return {cong:"86%",delay:"38 min",fuel:ppl>=3?"Eco":"High",cls:"red",rec:"🚨 HIGH CONGESTION — Leave 30 min early or take Metro/Bus"};
+  if(isMid)  return {cong:"42%",delay:"18 min",fuel:cp!=="no"?"Good":"Moderate",cls:"amber",rec:"⚠️ MODERATE — Consider leaving 10 min earlier"};
+  return {cong:"12%",delay:"6 min",fuel:"Optimal",cls:"green",rec:"✅ LOW CONGESTION — Smooth journey expected!"};
+}
+
+function showResult(msg, cls) {
+  const r = document.getElementById("result");
+  r.className = `result show ${cls.charAt(0)}`;
+  r.innerHTML = msg;
+  setTimeout(()=>{ r.className="result"; r.innerHTML=""; },5000);
+}
+
+function setPred(p, info) {
+  const clsMap = {red:"#ff5252", amber:"#ffb347", green:"#00e676"};
+  const c = clsMap[p.cls]||"var(--sky2)";
+  document.getElementById("pCong").textContent = p.cong;
+  document.getElementById("pCong").style.color = c;
+  document.getElementById("pDelay").textContent = p.delay;
+  document.getElementById("pDelay").style.color = c;
+  document.getElementById("pFuel").textContent = p.fuel;
+  document.getElementById("pMsg").textContent = info;
+}
+
+function register() {
+  const name = document.getElementById("r_name").value.trim();
+  const phone = document.getElementById("r_phone").value.trim();
+  const vehicle = document.getElementById("r_vehicle").value.trim().toUpperCase();
+  const vtype = document.getElementById("r_vtype").value;
+  const state = document.getElementById("r_state").value;
+  const district = document.getElementById("r_district").value;
+  const ppl = parseInt(document.getElementById("r_people").value)||1;
+  const from = document.getElementById("r_from").value.trim();
+  const to = document.getElementById("r_to").value.trim();
+  const time = document.getElementById("r_time").value;
+  const date = document.getElementById("r_date").value;
+  if(!name||!vehicle||!from||!to||!time){showResult("⚠️ Please fill Name, Vehicle, From, To and Time.","warning");return;}
+  currentUser = {name,phone,vehicle,vtype,state,district,registeredOn:new Date().toLocaleDateString("en-IN")};
+  localStorage.setItem("svasti_user",JSON.stringify(currentUser));
+  addAudit(`📝 NEW USER: ${name} | ${vehicle} | ${district}, ${state}`);
+  const hour = parseInt(time.split(":")[0]);
+  const p = getPred(hour,ppl,carpoolChoice);
+  const info = `🚗 ${name} (${vehicle}) · ${from} → ${to} · ${time}\n📅 ${date||"Today"} · 👥 ${ppl} traveler(s) · ${district}, ${state}\n${p.rec}`;
+  setPred(p,info);
+  updateChart(hour);
+  if(ppl>=3) addAudit(`⚙️ HOV lane access granted for ${vehicle} (${ppl} occupants)`);
+  if(carpoolChoice!=="no") addAudit(`💬 Carpool match search started for ${name}`);
+  slotCount++;
+  localStorage.setItem("svasti_count",slotCount);
+  document.getElementById("slotCount").textContent = slotCount.toLocaleString("en-IN")+"+";
+  addAudit(`🔮 PREDICTION: ${p.cong} congestion · ${p.delay} delay`);
+  showResult(`✅ Registered! Slot booked. ${carpoolChoice!=="no"?"🤝 Finding carpool matches.":""} ${phone?"📱 SMS sent to "+phone+".":""}`, "success");
+  setTimeout(()=>switchToReturning(),2000);
+}
+
+function switchToReturning() {
+  const u = currentUser;
+  document.getElementById("newForm").style.display = "none";
+  document.getElementById("returnForm").style.display = "block";
+  document.getElementById("regTitle").textContent = `👋 Welcome back, ${u.name.split(" ")[0]}! Book your journey`;
+  document.getElementById("j_date").value = new Date().toISOString().split("T")[0];
+  document.getElementById("profileAvatar").textContent = u.name.charAt(0).toUpperCase();
+  document.getElementById("profileName").textContent = `${u.name} · ${u.vehicle}`;
+  document.getElementById("profileSub").textContent = `${u.vtype?.toUpperCase()} · ${u.district}, ${u.state} · Since ${u.registeredOn}`;
+  document.getElementById("profileBar").classList.add("show");
+  addAudit(`👤 Returning user: ${u.name}`);
+}
+
+function bookJourney() {
+  const u = currentUser;
+  const from = document.getElementById("j_from").value.trim();
+  const to = document.getElementById("j_to").value.trim();
+  const time = document.getElementById("j_time").value;
+  const date = document.getElementById("j_date").value;
+  const ppl = parseInt(document.getElementById("j_people").value)||1;
+  const cp = document.getElementById("j_carpool").value;
+  if(!from||!to||!time){showResult("⚠️ Please fill From, To and Time.","warning");return;}
+  addAudit(`📍 SLOT BOOKED: ${u.name} | ${from} → ${to} | ${time}`);
+  const hour = parseInt(time.split(":")[0]);
+  const p = getPred(hour,ppl,cp);
+  const info = `🚗 ${u.name} (${u.vehicle}) · ${from} → ${to} · ${time}\n📅 ${date||"Today"} · 👥 ${ppl} traveler(s) · ${u.district}, ${u.state}\n${p.rec}`;
+  setPred(p,info);
+  updateChart(hour);
+  slotCount++;
+  localStorage.setItem("svasti_count",slotCount);
+  document.getElementById("slotCount").textContent = slotCount.toLocaleString("en-IN")+"+";
+  addAudit(`🔮 PREDICTION: ${p.cong} congestion · ${p.delay} delay`);
+  showResult(`✅ Journey slot booked! ${cp!=="no"?"🤝 Carpool mode active.":"Safe travels!"}`, "success");
+}
+
+function agentClick(agent) {
+  if(activeAgent) document.getElementById("ag-"+activeAgent).classList.remove("active");
+  activeAgent = agent;
+  document.getElementById("ag-"+agent).classList.add("active");
+  const time = document.getElementById("j_time")?.value || document.getElementById("r_time")?.value || "12:00";
+  const hour = parseInt(time.split(":")[0]);
+  const isPeak = (hour>=8&&hour<=10)||(hour>=17&&hour<=19);
+  const ppl = parseInt(document.getElementById("j_people")?.value || document.getElementById("r_people")?.value || 1);
+  const msgs = {
+    predictor: isPeak
+      ? "🔮 PREDICTOR: HIGH CONGESTION (86%) · LSTM confidence 89%\nRecommendation: Shift departure ±30 min or use alternate route"
+      : "🔮 PREDICTOR: LOW CONGESTION (12%) · LSTM confidence 94%\nThis window is optimal for travel",
+    optimizer: ppl>=3
+      ? `⚙️ OPTIMIZER: ${ppl}-occupant vehicle detected\nHOV lane ACCESS GRANTED · Signal priority +18s · Saving: 12-15 min`
+      : "⚙️ OPTIMIZER: Low occupancy · Carpool recommended for HOV access\nRoute optimized by 8% via dynamic signal adjustment",
+    nudge: isPeak
+      ? (hour<=12?"💬 NUDGE: Morning peak!\nLeave by 7:45 AM → save 25 min\nOuter Ring Road: 18 min faster · Metro: fastest"
+                 :"💬 NUDGE: Evening peak!\nEastern Bypass saves 20 min · Carpool saves ₹40 on toll\nNext off-peak window: 7:30 PM")
+      : "💬 NUDGE: Off-peak — great choice!\nMaintain 50-60 km/h for optimal efficiency\nFuel saving tip: engine braking on downhills",
+    verifier: `📊 VERIFIER AUDIT REPORT\n• ${slotCount.toLocaleString("en-IN")} slots booked today\n• 46% congestion reduction verified\n• 2,450L fuel saved · 5.8T CO₂ offset\n• 98.7% SLA compliance\n• 147 signal optimizations\n• 892 behavioral nudges sent\n• 67 carpool matches confirmed`
   };
+  document.getElementById("agentOut").textContent = msgs[agent];
+  addAudit(`🤖 ${agent.charAt(0).toUpperCase()+agent.slice(1)} Agent activated`);
+}
 
-    // Function to add entry to audit log
-    function addAuditEntry(message) {
-        let auditLog = document.getElementById('auditLog');
-        let timestamp = new Date().toLocaleTimeString();
-        let entry = document.createElement('div');
-        entry.className = 'audit-entry';
-        entry.innerHTML = `🕐 ${timestamp} | ${message}`;
-        auditLog.appendChild(entry);
-        auditLog.scrollTop = auditLog.scrollHeight;
-        
-        // Keep only last 15 entries to avoid overflow
-        while(auditLog.children.length > 15) {
-            auditLog.removeChild(auditLog.firstChild);
-        }
-    }
+function logout() {
+  localStorage.removeItem("svasti_user");
+  location.reload();
+}
 
-    function updateHelpline() {
-        let state = document.getElementById('state').value;
-        let helplineDiv = document.getElementById('helpline');
-        let alertDiv = document.getElementById('helplineAlert');
-        
-        if(helplines[state]) {
-            helplineDiv.innerHTML = `
-                <div class="helpline-card">🚔 ${helplines[state].name}<br><span class="helpline-number">${helplines[state].police}</span></div>
-                <div class="helpline-card">🚑 Emergency<br><span class="helpline-number">112</span></div>
-                <div class="helpline-card">🛣️ Highway Patrol<br><span class="helpline-number">1033</span></div>
-            `;
-            alertDiv.innerHTML = `📢 ${state} Traffic Alert: For emergencies in ${state}, dial ${helplines[state].police}`;
-            addAuditEntry(`📍 Helpline updated for ${state} | Police: ${helplines[state].police}`);
-        }
-        
-        // Update map
-        let mapFrame = document.getElementById('map');
-        mapFrame.src = `https://www.google.com/maps?q=${state}+traffic&output=embed`;
-    }
+window.onload = function() {
+  document.getElementById("r_date").value = new Date().toISOString().split("T")[0];
+  document.getElementById("slotCount").textContent = slotCount.toLocaleString("en-IN")+"+";
+  fillDistricts("Telangana","r_district","Hyderabad");
+  renderHelpline("Telangana","Hyderabad");
+  initChart();
 
-    function register() {
-        let name = document.getElementById('name').value;
-        let phone = document.getElementById('phone').value;
-        let vehicle = document.getElementById('vehicle').value;
-        let people = document.getElementById('people').value;
-        let from = document.getElementById('from').value;
-        let to = document.getElementById('to').value;
-        let time = document.getElementById('time').value;
-        let carpool = document.getElementById('carpool').value;
-        let state = document.getElementById('state').value;
-        
-        if(!name || !vehicle || !from || !to) {
-            alert("⚠️ Please fill all required fields!");
-            return;
-        }
-        
-        addAuditEntry(`📝 New registration | Vehicle: ${vehicle} | Owner: ${name} | From: ${from} → To: ${to}`);
-        
-        let hour = parseInt(time.split(":")[0]);
-        let congestion, delay, rec;
-        
-        if((hour>=8 && hour<=10) || (hour>=17 && hour<=19)) {
-            congestion = "86%";
-            delay = "38 minutes";
-            rec = "🚨 HIGH CONGESTION! Leave 30 minutes early or take Metro.";
-            addAuditEntry(`🔮 PREDICTION: High congestion (86%) predicted for ${from}→${to} at ${time}`);
-        } else if(hour>=11 && hour<=16) {
-            congestion = "42%";
-            delay = "18 minutes";
-            rec = "⚠️ MODERATE CONGESTION. Consider leaving 10 minutes early.";
-            addAuditEntry(`🔮 PREDICTION: Moderate congestion (42%) predicted for ${from}→${to} at ${time}`);
-        } else {
-            congestion = "12%";
-            delay = "6 minutes";
-            rec = "✅ LOW CONGESTION. Smooth travel expected!";
-            addAuditEntry(`🔮 PREDICTION: Low congestion (12%) predicted - Optimal travel time`);
-        }
-        
-        let fuelEfficiency = people>=3 ? "Excellent (Carpool)" : (people==2 ? "Good" : "Standard");
-        
-        if(people >= 3) {
-            addAuditEntry(`⚙️ OPTIMIZER: HOV lane access granted for vehicle ${vehicle} (${people} occupants)`);
-        } else if(carpool == 'yes') {
-            addAuditEntry(`💡 NUDGE: Carpool recommendation sent to ${name} - 34 potential matches available`);
-        }
-        
-        document.getElementById('congestion').innerHTML = congestion;
-        document.getElementById('delay').innerHTML = delay;
-        document.getElementById('fuel').innerHTML = fuelEfficiency;
-        document.getElementById('predictionMsg').innerHTML = `🚗 <strong>${name}</strong> (${vehicle}) | ${from} → ${to} at ${time}<br>👥 ${people} travelers | ${state}<br>🔮 ${rec}`;
-        
-        let msg = `<div class="success">✅ Registration Successful! ${carpool!='no' ? '🎉 Carpool mode activated - We will find matches for you!' : 'Safe travels!'}</div>`;
-        document.getElementById('result').innerHTML = msg;
-        
-        if(phone) {
-            addAuditEntry(`📱 SMS notification sent to ${phone} | Welcome message delivered`);
-        }
-        
-        setTimeout(() => { document.getElementById('result').innerHTML = ''; }, 4000);
-        
-        let count = localStorage.getItem('vc')||0;
-        count = parseInt(count)+1;
-        localStorage.setItem('vc',count);
-        let newData = chartData.map(v=>Math.min(1200, v + count));
-        myChart.data.datasets[0].data = newData;
-        myChart.update();
-        
-        addAuditEntry(`📊 Traffic graph updated | Current vehicle count: ${count} | Peak hour data refreshed`);
-    }
+  // Load returning user
+  try {
+    const u = JSON.parse(localStorage.getItem("svasti_user"));
+    if(u){ currentUser=u; switchToReturning(); }
+  } catch{}
 
-    function agentClick(agent) {
-        let time = document.getElementById('time').value;
-        let hour = parseInt(time.split(":")[0]);
-        let people = document.getElementById('people').value;
-        let vehicle = document.getElementById('vehicle').value;
-        let msg = "";
-        
-        if(agent == 'predictor') {
-            if((hour>=8&&hour<=10) || (hour>=17&&hour<=19)) {
-                msg = "🔮 PREDICTOR AGENT: HIGH CONGESTION (86%) predicted. LSTM model accuracy: 89%. Recommendation: Shift travel by 30 minutes.";
-                addAuditEntry(`🔮 Predictor Agent activated | High congestion forecast | Confidence: 89%`);
-            } else {
-                msg = "🔮 PREDICTOR AGENT: LOW CONGESTION (12%) predicted. Best time to travel! Model confidence: 94%";
-                addAuditEntry(`🔮 Predictor Agent activated | Low congestion forecast | Optimal travel window identified`);
-            }
-        } else if(agent == 'optimizer') {
-            if(people >= 3) {
-                msg = "⚙️ OPTIMIZER AGENT: High occupancy detected! HOV lane access GRANTED. Green signal extended by 18 seconds. Estimated time savings: 12-15 minutes.";
-                addAuditEntry(`⚙️ Optimizer Agent executed | HOV lane access granted for ${people} occupants | 12-15 min savings predicted`);
-            } else {
-                msg = "⚙️ OPTIMIZER AGENT: Single/Double occupancy detected. Carpool recommended for HOV lane access. Current route optimized - 8% improvement.";
-                addAuditEntry(`⚙️ Optimizer Agent executed | Carpool recommendation triggered | 8% route improvement calculated`);
-            }
-        } else if(agent == 'nudge') {
-            if((hour>=8&&hour<=10)) {
-                msg = "💬 NUDGE AGENT: Morning peak detected! Leave by 7:45 AM to save 25 minutes. Alternative: Outer Ring Road - 18 minutes faster.";
-                addAuditEntry(`💬 Nudge Agent triggered | Morning peak alert | Alternative route suggested (18 min faster)`);
-            } else if((hour>=17&&hour<=19)) {
-                msg = "💬 NUDGE AGENT: Evening peak detected! Alternative route via Eastern Bypass saves 20 minutes. Carpool saves 40% on toll.";
-                addAuditEntry(`💬 Nudge Agent triggered | Evening peak alert | Toll saving recommendation sent`);
-            } else {
-                msg = "💬 NUDGE AGENT: You're traveling in off-peak hours! Great choice. Maintain 50-60 km/h for optimal fuel efficiency.";
-                addAuditEntry(`💬 Nudge Agent triggered | Off-peak travel detected | Fuel efficiency tip provided`);
-            }
-        } else if(agent == 'verifier') {
-            msg = "📊 VERIFIER AGENT - Audit Report:\n• 2,847 vehicles registered today\n• 46% congestion reduction achieved\n• 2,450L fuel saved\n• 5.8T CO2 offset\n• 98.7% SLA compliance\n• 147 signal optimizations\n• 892 nudges sent\n• 67 carpool matches";
-            addAuditEntry(`📊 Verifier Agent activated | Full audit report generated | SLA compliance: 98.7%`);
-        }
-        
-        document.getElementById('agentMsg').innerHTML = msg;
-    }
+  // GPS
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(pos=>{
+      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json`)
+        .then(r=>r.json()).then(d=>{
+          const city = d.address?.city||d.address?.town||d.address?.village||"Your City";
+          const st = d.address?.state||"Telangana";
+          const matched = Object.keys(HELPLINES).find(k=>st.toLowerCase().includes(k.toLowerCase()))||"Telangana";
+          renderHelpline(matched,city);
+          addAudit(`📡 GPS: ${city}, ${matched}`);
+        }).catch(()=>{});
+    },()=>{});
+  }
 
-    window.onload = function() {
-        document.getElementById('date').value = new Date().toISOString().split('T')[0];
-        document.getElementById('state').addEventListener('change', updateHelpline);
-        updateHelpline();
-        addAuditEntry("🟢 SVASTI system online | AI Agents ready for autonomous traffic orchestration");
-        addAuditEntry("📡 Live data feed active | Monitoring 12 traffic corridors");
-    }
+  addAudit("🟢 SVASTI v2 online · AI agents ready");
+  addAudit("📡 GPS location detection initiated");
+};
 </script>
 </body>
 </html>
+HTMLEOF
+echo "Done"
